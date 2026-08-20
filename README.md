@@ -13,3 +13,6 @@ This small project is for me to get familiar with the basic ideas of machine lea
    b. Learn more complex PCB design
 3. Create a more complex system combining machine learning, PCB design and embedded systems
 
+## Autograd Engine
+
+The first part of this project will be developing an Autograd engine.
