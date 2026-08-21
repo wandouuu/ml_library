@@ -25,3 +25,17 @@ const std::string& Value::get_op() const{
 const std::function<void()>& Value::get_backward() const{
     return _backward;
 }
+
+std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs){
+    
+    if(!lhs || !rhs){
+        return nullptr;
+    }
+
+    std::vector<std::shared_ptr<Value>> prev;
+    prev.push_back(lhs);
+    prev.push_back(rhs);
+
+    return std::make_shared<Value>(lhs->data + rhs->data, 0.0, prev, "+");
+    
+}
