@@ -1,4 +1,5 @@
 #include "value.hpp"
+#include "cmath"
 
 Value::Value(double data, double grad, std::vector<std::shared_ptr<Value>> prev, std::string op) : 
     data(data), 
@@ -193,7 +194,13 @@ std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, const std::s
     prev.push_back(lhs);
     prev.push_back(rhs);
 
-    return std::make_shared<Value>(lhs->data / rhs->data, 0.0, prev, "/");
+    std::shared_ptr<Value> out = std::make_shared<Value>(lhs->data / rhs->data, 0.0, prev, "/");
+    out->_backward = [lhs, rhs, out](){
+        lhs->grad = out->grad / rhs->data;
+        rhs->grad = (-lhs->data / std::pow(rhs->data, 2)) * out->grad;
+    };
+
+    return out;
     
 }
 
@@ -209,7 +216,13 @@ std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, double rhs){
     prev.push_back(lhs);
     prev.push_back(rhs_ptr);
 
-    return std::make_shared<Value>(lhs->data / rhs, 0.0, prev, "/");
+    std::shared_ptr<Value> out = std::make_shared<Value>(lhs->data / rhs, 0.0, prev, "/");
+    out->_backward = [lhs, rhs_ptr, out](){
+        lhs->grad = out->grad / rhs_ptr->data;
+        rhs_ptr->grad = (-lhs->data / std::pow(rhs_ptr->data, 2)) * out->grad;
+    };
+
+    return out;
 
 }
 
