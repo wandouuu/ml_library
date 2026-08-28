@@ -3,16 +3,15 @@
 
 int main(){
 
-    std::shared_ptr<Value> a = std::make_shared<Value>(0);
+    std::shared_ptr<Value> a = std::make_shared<Value>(2);
     std::shared_ptr<Value> b = std::make_shared<Value>(3);
 
-    std::shared_ptr<Value> c = 0 / a;
+    std::shared_ptr<Value> c = a / b;
 
-    std::cout << c->get_data() << std::endl;
+    c->set_grad(1);
 
-    for(auto obj : c->get_prev()){
-        std::cout << obj->get_data() << std::endl;
-    }
+    std::function<void()> backward_func = c->get_backward();
+    backward_func();
 
     return 0;
 }

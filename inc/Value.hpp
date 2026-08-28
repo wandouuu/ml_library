@@ -29,6 +29,9 @@ class Value : public std::enable_shared_from_this<Value> {
         const std::vector<std::shared_ptr<Value>>& get_prev() const; // keep content of vector constant but also prevent memory to be changed
         const std::string& get_op() const; // similar to above
         const std::function<void()>& get_backward() const; // similar to above
+        
+        // For testing ONLY
+        void set_grad(double grad);
 
         friend std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs,
                                                 const std::shared_ptr<Value>& rhs);
