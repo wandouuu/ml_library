@@ -36,6 +36,15 @@ class Value : public std::enable_shared_from_this<Value> {
                                                 double rhs);
         friend std::shared_ptr<Value> operator+(double lhs,
                                                 const std::shared_ptr<Value>& rhs);
+        
+        friend std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs,
+                                                const std::shared_ptr<Value>& rhs);
+        friend std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs,
+                                                double rhs);
+        friend std::shared_ptr<Value> operator-(double lhs,
+                                                const std::shared_ptr<Value>& rhs);                                        
+
+
 
 
 };
