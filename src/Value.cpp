@@ -102,6 +102,7 @@ std::shared_ptr<Value> operator-(double lhs, const std::shared_ptr<Value>& rhs){
     }
 
     std::shared_ptr<Value> lhs_ptr = std::make_shared<Value>(lhs, 0.0, std::vector<std::shared_ptr<Value>>{}, "");
+    
     return lhs_ptr - rhs;
 
 }
