@@ -147,5 +147,47 @@ std::shared_ptr<Value> operator*(double lhs, const std::shared_ptr<Value>& rhs){
 
 }
 
+std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs){
+    
+    if((!lhs || !rhs)){
+        return nullptr;
+    }
+
+    std::vector<std::shared_ptr<Value>> prev;
+    prev.push_back(lhs);
+    prev.push_back(rhs);
+
+    return std::make_shared<Value>(lhs->data / rhs->data, 0.0, prev, "/");
+    
+}
+
+std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, double rhs){
+    
+    if(!lhs){
+        return nullptr;
+    }
+
+    std::shared_ptr<Value> rhs_ptr = std::make_shared<Value>(rhs, 0.0, std::vector<std::shared_ptr<Value>>{}, "");
+
+    std::vector<std::shared_ptr<Value>> prev;
+    prev.push_back(lhs);
+    prev.push_back(rhs_ptr);
+
+    return std::make_shared<Value>(lhs->data / rhs, 0.0, prev, "/");
+
+}
+
+std::shared_ptr<Value> operator/(double lhs, const std::shared_ptr<Value>& rhs){
+
+    if(!rhs){
+        return nullptr;
+    }
+
+    std::shared_ptr<Value> lhs_ptr = std::make_shared<Value>(lhs, 0.0, std::vector<std::shared_ptr<Value>>{}, "");
+
+    return lhs_ptr / rhs;
+
+}
+
 
 
