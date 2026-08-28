@@ -110,8 +110,13 @@ std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, double rhs){
     prev.push_back(lhs);
     prev.push_back(rhs_ptr);
 
-    return std::make_shared<Value>(lhs->data - rhs, 0.0, prev, "-");
+    std::shared_ptr<Value> out = std::make_shared<Value>(lhs->data - rhs, 0.0, prev, "-");
+    out->_backward = [lhs, rhs_ptr, out](){
+        lhs->grad = out->grad * 1;
+        rhs_ptr->grad = out->grad * -1;
+    };
 
+    return out;
 }
 
 std::shared_ptr<Value> operator-(double lhs, const std::shared_ptr<Value>& rhs){
