@@ -141,7 +141,13 @@ std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, const std::s
     prev.push_back(lhs);
     prev.push_back(rhs);
 
-    return std::make_shared<Value>(lhs->data * rhs->data, 0.0, prev, "*");
+    std::shared_ptr<Value> out = std::make_shared<Value>(lhs->data * rhs->data, 0.0, prev, "*");
+    out->_backward = [lhs, rhs, out](){
+        lhs->grad = rhs->data * out->grad;
+        rhs->grad = lhs->data * out->grad;
+    };
+
+    return out;
     
 }
 
@@ -157,7 +163,13 @@ std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, double rhs){
     prev.push_back(lhs);
     prev.push_back(rhs_ptr);
 
-    return std::make_shared<Value>(lhs->data * rhs, 0.0, prev, "*");
+    std::shared_ptr<Value> out = std::make_shared<Value>(lhs->data * rhs, 0.0, prev, "*");
+    out->_backward = [lhs, rhs_ptr, out](){
+        lhs->grad = rhs_ptr->data * out->grad;
+        rhs_ptr->grad = lhs->data * out->grad;
+    };
+
+    return out;
 
 }
 
