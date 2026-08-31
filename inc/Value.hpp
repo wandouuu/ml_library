@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <set>
 
 class Value : public std::enable_shared_from_this<Value> {
     private:

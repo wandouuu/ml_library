@@ -1,8 +1,7 @@
 #include "value.hpp"
-#include "cmath"
-#include "iostream"
-#include "set"
-#include "algorithm"
+#include <cmath>
+#include <iostream>
+#include <algorithm>
 
 Value::Value(double data, double grad, std::vector<std::shared_ptr<Value>> prev, std::string op) : 
     data(data), 
@@ -37,6 +36,7 @@ void Value::set_grad(double grad){
 void Value::backward(){
     
     // Topological stack
+    this->set_grad(1.0);
     std::vector<std::shared_ptr<Value>> topo = {};
     std::set<std::shared_ptr<Value>> visited = {};
 
@@ -289,9 +289,10 @@ std::shared_ptr<Value> operator/(double lhs, const std::shared_ptr<Value>& rhs){
 
 void build_topo(std::vector<std::shared_ptr<Value>>& topo, std::set<std::shared_ptr<Value>>& visited, std::shared_ptr<Value> v){
 
-    if(!visited.contains(v)){
+    if(!(visited.find(v) != visited.end())){
         // Visited now contains that node because we just saw it
         visited.insert(v);
+        // for each child recursively build topological order (basically, it will add to the topo first)
         for(auto& child : v->get_prev()){
             build_topo(topo, visited, child);
         }
