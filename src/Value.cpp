@@ -1,6 +1,8 @@
 #include "value.hpp"
 #include "cmath"
 #include "iostream"
+#include "set"
+#include "algorithm"
 
 Value::Value(double data, double grad, std::vector<std::shared_ptr<Value>> prev, std::string op) : 
     data(data), 
@@ -30,6 +32,24 @@ const std::function<void()>& Value::get_backward() const{
 
 void Value::set_grad(double grad){
     this->grad = grad;
+}
+
+void Value::backward(){
+    
+    // Topological stack
+    std::vector<std::shared_ptr<Value>> topo = {};
+    std::set<std::shared_ptr<Value>> visited = {};
+
+    // Build topological order
+    build_topo(topo, visited, shared_from_this());
+    std::reverse(topo.begin(), topo.end());
+
+    // After we get topological order, we can traverse the topological stack and call _backward on each node
+    for(auto& node : topo){
+        node->_backward();
+    }
+
+    return;
 }
 
 std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs){
@@ -264,6 +284,19 @@ std::shared_ptr<Value> operator/(double lhs, const std::shared_ptr<Value>& rhs){
     std::shared_ptr<Value> lhs_ptr = std::make_shared<Value>(lhs, 0.0, std::vector<std::shared_ptr<Value>>{}, "");
 
     return lhs_ptr / rhs;
+
+}
+
+void build_topo(std::vector<std::shared_ptr<Value>>& topo, std::set<std::shared_ptr<Value>>& visited, std::shared_ptr<Value> v){
+
+    if(!visited.contains(v)){
+        // Visited now contains that node because we just saw it
+        visited.insert(v);
+        for(auto& child : v->get_prev()){
+            build_topo(topo, visited, child);
+        }
+        topo.push_back(v);    
+    }
 
 }
 

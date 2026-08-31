@@ -33,6 +33,9 @@ class Value : public std::enable_shared_from_this<Value> {
         // For testing ONLY
         void set_grad(double grad);
 
+        // Backward pass function
+        void backward();
+
         friend std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs,
                                                 const std::shared_ptr<Value>& rhs);
         friend std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs,
@@ -63,3 +66,5 @@ class Value : public std::enable_shared_from_this<Value> {
 
 
 };
+
+void build_topo(std::vector<std::shared_ptr<Value>>& topo, std::set<std::shared_ptr<Value>>& visited, std::shared_ptr<Value> v);
