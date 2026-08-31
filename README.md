@@ -17,6 +17,6 @@ This small project is for me to get familiar with the basic ideas of machine lea
 
 The first part of this project will be developing an Autograd engine. This is inspired from from Andrej Karpathy's micrograd engine, but written in C++. All the code will be inside `ml_library` with the header files inside `inc`, source files in `src` and any tests that I've written inside `tests`.
 
-## Part 2: Neural Network
+## Part II: Neural Network
 
 The second part of this project will be developing the neural network infrastructure to perform basic ML tasks.
