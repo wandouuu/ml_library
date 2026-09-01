@@ -193,7 +193,6 @@ TEST(DIVISION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_DIVISION) {
     EXPECT_EQ(c->get_prev().size(), 2);
 
     // Edge cases
-    
     // Division by 0 with non-zero numerator
     std::shared_ptr<Value> d = std::make_shared<Value>(2026);
     std::shared_ptr<Value> e = std::make_shared<Value>(0);
