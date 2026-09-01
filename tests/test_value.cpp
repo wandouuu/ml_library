@@ -58,10 +58,10 @@ TEST(SUBTRACTION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_SUBTRACTION) {
     EXPECT_EQ(a->get_prev().size(), 0);
     EXPECT_EQ(b->get_prev().size(), 0);
     
+    // Value - Value
     std::shared_ptr<Value> c = a - b;
     c->backward();
 
-    // Value - Value
     EXPECT_EQ(c->get_data(), 2);
     EXPECT_EQ(c->get_grad(), 1);
     EXPECT_EQ(a->get_grad(), c->get_grad());
