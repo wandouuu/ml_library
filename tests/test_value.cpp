@@ -7,6 +7,12 @@ TEST(ADDITION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_ADDITION) {
     std::shared_ptr<Value> a = std::make_shared<Value>(5);
     std::shared_ptr<Value> b = std::make_shared<Value>(3);
 
+    // Initialization verification
+    EXPECT_EQ(a->get_grad(), 0);
+    EXPECT_EQ(b->get_grad(), 0);
+    EXPECT_EQ(a->get_prev().size(), 0);
+    EXPECT_EQ(b->get_prev().size(), 0);
+    
     // Value + Value
     std::shared_ptr<Value> c = a + b;
     c->backward();
@@ -50,5 +56,19 @@ TEST(ADDITION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_ADDITION) {
 }
 
 TEST(SUBTRACTION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_SUBTRACTION) {
-    EXPECT_EQ(true, true);
+    std::shared_ptr<Value> a = std::make_shared<Value>(5);
+    std::shared_ptr<Value> b = std::make_shared<Value>(3);
+
+    EXPECT_EQ(a->get_grad(), 0);
+    EXPECT_EQ(b->get_grad(), 0);
+
+
+}
+
+TEST(MULTIPLICATION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_MULTIPLICATION) {
+    
+}
+
+TEST(DIVISION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_DIVISION) {
+    
 }
