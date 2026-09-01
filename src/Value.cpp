@@ -9,31 +9,31 @@ Value::Value(double data, double grad, std::vector<std::shared_ptr<Value>> prev,
     prev(std::move(prev)), 
     op(std::move(op)){}
 
-double Value::get_data() const{
+double Value::get_data() const {
     return data;
 }
 
-double Value::get_grad() const{
+double Value::get_grad() const {
     return grad;
 }
 
-const std::vector<std::shared_ptr<Value>>& Value::get_prev() const{
+const std::vector<std::shared_ptr<Value>>& Value::get_prev() const {
     return prev;
 }
 
-const std::string& Value::get_op() const{ 
+const std::string& Value::get_op() const { 
     return op;
 }
 
-const std::function<void()>& Value::get_backward() const{
+const std::function<void()>& Value::get_backward() const {
     return _backward;
 }
 
-void Value::set_grad(double grad){
+void Value::set_grad(double grad) {
     this->grad = grad;
 }
 
-void Value::backward(){
+void Value::backward() {
     
     // Topological stack
     this->set_grad(1.0);
@@ -52,7 +52,7 @@ void Value::backward(){
     return;
 }
 
-std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs){
+std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) {
     
     if(!lhs || !rhs){
         return nullptr;
@@ -74,7 +74,7 @@ std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, const std::s
     
 }
 
-std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, double rhs){
+std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, double rhs) {
     
     if(!lhs){
         return nullptr;
@@ -98,7 +98,7 @@ std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, double rhs){
 
 }
 
-std::shared_ptr<Value> operator+(double lhs, const std::shared_ptr<Value>& rhs){
+std::shared_ptr<Value> operator+(double lhs, const std::shared_ptr<Value>& rhs) {
 
     if(!rhs){
         return nullptr;
@@ -107,7 +107,7 @@ std::shared_ptr<Value> operator+(double lhs, const std::shared_ptr<Value>& rhs){
     return rhs + lhs;
 }
 
-std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs){
+std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) {
     
     if(!lhs || !rhs){
         return nullptr;
@@ -125,9 +125,10 @@ std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, const std::s
     };
 
     return out;
+
 }
 
-std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, double rhs){
+std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, double rhs) {
     
     if(!lhs){
         return nullptr;
@@ -149,7 +150,7 @@ std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, double rhs){
     return out;
 }
 
-std::shared_ptr<Value> operator-(double lhs, const std::shared_ptr<Value>& rhs){
+std::shared_ptr<Value> operator-(double lhs, const std::shared_ptr<Value>& rhs) {
 
     if(!rhs){
         return nullptr;
@@ -161,7 +162,7 @@ std::shared_ptr<Value> operator-(double lhs, const std::shared_ptr<Value>& rhs){
 
 }
 
-std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs){
+std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) {
     
     if(!lhs || !rhs){
         return nullptr;
@@ -182,7 +183,7 @@ std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, const std::s
     
 }
 
-std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, double rhs){
+std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, double rhs) {
     
     if(!lhs){
         return nullptr;
@@ -205,7 +206,7 @@ std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, double rhs){
 
 }
 
-std::shared_ptr<Value> operator*(double lhs, const std::shared_ptr<Value>& rhs){
+std::shared_ptr<Value> operator*(double lhs, const std::shared_ptr<Value>& rhs) {
 
     if(!rhs){
         return nullptr;
@@ -217,7 +218,7 @@ std::shared_ptr<Value> operator*(double lhs, const std::shared_ptr<Value>& rhs){
 
 }
 
-std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs){
+std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) {
     
     if((!lhs || !rhs)){
         return nullptr;
@@ -238,7 +239,7 @@ std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, const std::s
     
 }
 
-std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, double rhs){
+std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, double rhs) {
     
     if(!lhs){
         return nullptr;
@@ -261,7 +262,7 @@ std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, double rhs){
 
 }
 
-std::shared_ptr<Value> operator/(double lhs, const std::shared_ptr<Value>& rhs){
+std::shared_ptr<Value> operator/(double lhs, const std::shared_ptr<Value>& rhs) {
 
     if(!rhs){
         return nullptr;
@@ -273,7 +274,7 @@ std::shared_ptr<Value> operator/(double lhs, const std::shared_ptr<Value>& rhs){
 
 }
 
-void build_topo(std::vector<std::shared_ptr<Value>>& topo, std::set<std::shared_ptr<Value>>& visited, std::shared_ptr<Value> v){
+void build_topo(std::vector<std::shared_ptr<Value>>& topo, std::set<std::shared_ptr<Value>>& visited, std::shared_ptr<Value> v) {
 
     if(!(visited.find(v) != visited.end())){
         // Visited now contains that node because we just saw it

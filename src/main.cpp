@@ -1,7 +1,7 @@
 #include "value.hpp"
 #include <iostream>
 
-int main(){
+int main() {
 
     std::shared_ptr<Value> a = std::make_shared<Value>(2);
     std::shared_ptr<Value> b = std::make_shared<Value>(3);
@@ -14,4 +14,5 @@ int main(){
     backward_func();
 
     return 0;
+    
 }
