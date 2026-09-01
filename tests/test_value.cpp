@@ -3,6 +3,7 @@
 #include "value.hpp"
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 TEST(ADDITION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_ADDITION) {
     std::shared_ptr<Value> a = std::make_shared<Value>(5);
@@ -190,6 +191,26 @@ TEST(DIVISION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_DIVISION) {
     EXPECT_EQ(c->get_prev()[0]->get_data(), 2027);
     EXPECT_EQ(std::find(c->get_prev().begin(), c->get_prev().end(), a) != c->get_prev().end(), false);
     EXPECT_EQ(c->get_prev().size(), 2);
+
+    // Edge cases
+    
+    // Division by 0 with non-zero numerator
+    std::shared_ptr<Value> d = std::make_shared<Value>(2026);
+    std::shared_ptr<Value> e = std::make_shared<Value>(0);
+
+    std::shared_ptr<Value> f = d / e;
+    f->backward();
+
+    EXPECT_EQ(f->get_data(), std::numeric_limits<double>::infinity());
+    EXPECT_EQ(d->get_grad(), std::numeric_limits<double>::infinity());
+    EXPECT_EQ(e->get_grad(), -std::numeric_limits<double>::infinity());
+
+    // Division by 0 with 0 numerator
+    std::shared_ptr<Value> g = e / e;
+    g->backward();
+    
+    EXPECT_EQ(std::isnan(g->get_data()), true);
+    EXPECT_EQ(std::isnan(e->get_grad()), true);
 
 }
 
