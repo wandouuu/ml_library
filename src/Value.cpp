@@ -211,7 +211,9 @@ std::shared_ptr<Value> operator*(double lhs, const std::shared_ptr<Value>& rhs){
         return nullptr;
     }
 
-    return rhs * lhs;
+    std::shared_ptr<Value> lhs_ptr = std::make_shared<Value>(lhs);
+
+    return lhs_ptr * rhs;
 
 }
 
