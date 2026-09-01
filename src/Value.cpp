@@ -68,8 +68,6 @@ std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, const std::s
         lhs->grad = out->grad * 1;
         rhs->grad = out->grad * 1;
 
-        std::cout << lhs->grad << std::endl;
-        std::cout << rhs->grad << std::endl;
     };
 
     return out;
@@ -94,8 +92,6 @@ std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs, double rhs){
         lhs->grad = out->grad * 1;
         rhs_ptr->grad = out->grad * 1;
 
-        std::cout << lhs->grad << std::endl;
-        std::cout << rhs_ptr->grad << std::endl;
     };  
 
     return out;
@@ -126,8 +122,6 @@ std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, const std::s
         lhs->grad = out->grad * 1;
         rhs->grad = out->grad * -1;
 
-        std::cout << lhs->grad << std::endl;
-        std::cout << rhs->grad << std::endl;
     };
 
     return out;
@@ -150,8 +144,6 @@ std::shared_ptr<Value> operator-(const std::shared_ptr<Value>& lhs, double rhs){
         lhs->grad = out->grad * 1;
         rhs_ptr->grad = out->grad * -1;
 
-        std::cout << lhs->grad << std::endl;
-        std::cout << rhs_ptr->grad << std::endl;
     };
 
     return out;
@@ -184,8 +176,6 @@ std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, const std::s
         lhs->grad = rhs->data * out->grad;
         rhs->grad = lhs->data * out->grad;
 
-        std::cout << lhs->grad << std::endl;
-        std::cout << rhs->grad << std::endl;
     };
 
     return out;
@@ -209,8 +199,6 @@ std::shared_ptr<Value> operator*(const std::shared_ptr<Value>& lhs, double rhs){
         lhs->grad = rhs_ptr->data * out->grad;
         rhs_ptr->grad = lhs->data * out->grad;
 
-        std::cout << lhs->grad << std::endl;
-        std::cout << rhs_ptr->grad << std::endl;
     };
 
     return out;
@@ -242,8 +230,6 @@ std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, const std::s
         lhs->grad = out->grad / rhs->data;
         rhs->grad = (-lhs->data / std::pow(rhs->data, 2)) * out->grad;
 
-        std::cout << lhs->grad << std::endl;
-        std::cout << rhs->grad << std::endl;
     };
 
     return out;
@@ -267,8 +253,6 @@ std::shared_ptr<Value> operator/(const std::shared_ptr<Value>& lhs, double rhs){
         lhs->grad = out->grad / rhs_ptr->data;
         rhs_ptr->grad = (-lhs->data / std::pow(rhs_ptr->data, 2)) * out->grad;
 
-        std::cout << lhs->grad << std::endl;
-        std::cout << rhs_ptr->grad << std::endl;
     };
 
     return out;
