@@ -272,6 +272,43 @@ TEST(RELU_TEST, TESTING_CALCULATIONS_RELU) {
 
 TEST(SIGMOID_TEST, TESTING_CALCULATIONS_SIGMOID) {
     
+
+    // At x == 0.0
+    std::shared_ptr<Value> a = std::make_shared<Value>(0.0);
+
+    std::shared_ptr<Value> b = sigmoid(a);
+    b->backward();
+
+    EXPECT_EQ(b->get_data(), (1.0 / 2.0));
+    EXPECT_EQ(a->get_grad(), (1.0 / 4.0));
+    EXPECT_EQ(b->get_grad(), 1.0);
+    EXPECT_EQ(b->get_prev()[0], a);
+    EXPECT_EQ(b->get_prev().size(), 1);
+
+    // Near x -> +inf
+    std::shared_ptr<Value> c = std::make_shared<Value>(std::numeric_limits<double>::infinity());
+
+    std::shared_ptr<Value> d = sigmoid(c);
+    d->backward();
+
+    EXPECT_EQ(d->get_data(), 1.0);
+    EXPECT_EQ(c->get_grad(), 0.0);
+    EXPECT_EQ(d->get_grad(), 1.0);
+    EXPECT_EQ(d->get_prev()[0], c);
+    EXPECT_EQ(d->get_prev().size(), 1);
+
+    // Near x -> -inf
+    std::shared_ptr<Value> e = std::make_shared<Value>(-std::numeric_limits<double>::infinity());
+
+    std::shared_ptr<Value> f = sigmoid(e);
+    f->backward();
+
+    EXPECT_EQ(f->get_data(), 0.0);
+    EXPECT_EQ(e->get_grad(), 0.0);
+    EXPECT_EQ(f->get_grad(), 1.0);
+    EXPECT_EQ(f->get_prev()[0], e);
+    EXPECT_EQ(f->get_prev().size(), 1);
+
 }
 
 TEST(BACKPROP_TEST, TESTING_CALCULATIONS_OVERALL_BACKPROP) {
