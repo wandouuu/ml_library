@@ -319,6 +319,26 @@ std::shared_ptr<Value> relu(const std::shared_ptr<Value>& v) {
 
 }
 
+std::shared_ptr<Value> sigmoid(const std::shared_ptr<Value>& v) {
+
+    if(!v){
+        return nullptr;
+    }
+
+    std::vector<std::shared_ptr<Value>> prev = {};
+    prev.push_back(v);
+
+    double sigmoid_eval = 1.0 / (1.0 + std::exp(-(v->get_data())));
+
+    std::shared_ptr<Value> out = std::make_shared<Value>(sigmoid, 0.0, prev, "sigmoid(x)");
+    out->_backward = [v, out, sigmoid_eval](){
+        v->grad = sigmoid_eval * (1 - sigmoid_eval);
+    };
+
+    return out;
+
+}
+
 void build_topo(std::vector<std::shared_ptr<Value>>& topo, std::set<std::shared_ptr<Value>>& visited, std::shared_ptr<Value> v) {
 
     if(!(visited.find(v) != visited.end())){
