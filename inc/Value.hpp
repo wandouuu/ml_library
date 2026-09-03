@@ -64,6 +64,12 @@ class Value : public std::enable_shared_from_this<Value> {
                                                 double rhs);
         friend std::shared_ptr<Value> operator/(double lhs,
                                                 const std::shared_ptr<Value>& rhs); 
+        
+        friend std::shared_ptr<Value> tanh(const std::shared_ptr<Value>& v);
+
+        friend std::shared_ptr<Value> relu(const std::shared_ptr<Value>& v);
+
+        friend std::shared_ptr<Value> sigmoid(const std::shared_ptr<Value> &v);
 
 
 };

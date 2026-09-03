@@ -274,6 +274,29 @@ std::shared_ptr<Value> operator/(double lhs, const std::shared_ptr<Value>& rhs) 
 
 }
 
+std::shared_ptr<Value> tanh(const std::shared_ptr<Value>& v) {
+
+    if(!v){
+        return nullptr;
+    }
+
+    std::vector<std::shared_ptr<Value>> prev = {};
+    prev.push_back(v);
+
+    double tmp = v->get_data();
+    double x = std::exp(tmp);
+    double y = -std::exp(tmp);
+    double data = (x - y) / (x + y);
+
+    std::shared_ptr<Value> out = std::make_shared<Value>(data, 0.0, prev, "tanh(x)");
+    out->_backward = [v, out, data](){
+        v->grad = out->grad * (1 - std::pow(data, 2)); 
+    };
+
+    return out;
+
+}
+
 void build_topo(std::vector<std::shared_ptr<Value>>& topo, std::set<std::shared_ptr<Value>>& visited, std::shared_ptr<Value> v) {
 
     if(!(visited.find(v) != visited.end())){
