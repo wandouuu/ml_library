@@ -238,6 +238,7 @@ TEST(RELU_TEST, TESTING_CALCULATIONS_RELU) {
     b->backward();
 
     EXPECT_EQ(b->get_data(), a->get_data());
+    EXPECT_EQ(a->get_grad(), 1.0);
     EXPECT_EQ(b->get_grad(), 1.0);
     EXPECT_EQ(b->get_prev()[0], a);
     EXPECT_EQ(b->get_prev().size(), 1);
@@ -246,9 +247,11 @@ TEST(RELU_TEST, TESTING_CALCULATIONS_RELU) {
     std::shared_ptr<Value> c = std::make_shared<Value>(0.0);
     
     std::shared_ptr<Value> d = relu(c);
+    d->backward();
 
     EXPECT_EQ(d->get_data(), c->get_data());
-    EXPECT_EQ(d->get_grad(), 0.0);
+    EXPECT_EQ(c->get_grad(), 0.0);
+    EXPECT_EQ(d->get_grad(), 1.0);
     EXPECT_EQ(d->get_prev()[0], c);
     EXPECT_EQ(d->get_prev().size(), 1);
 
@@ -256,10 +259,12 @@ TEST(RELU_TEST, TESTING_CALCULATIONS_RELU) {
     std::shared_ptr<Value> e = std::make_shared<Value>(-5.0);
 
     std::shared_ptr<Value> f = relu(e);
+    f->backward();
 
     EXPECT_EQ(e->get_data(), -5.0);
-    EXPECT_EQ(f->get_data(), f->get_grad()); // both 0.0 (checked in next assertion)
-    EXPECT_EQ(f->get_grad(), 0.0);
+    EXPECT_EQ(e->get_grad(), 0.0);
+    EXPECT_EQ(f->get_data(), 0.0);
+    EXPECT_EQ(f->get_grad(), 1.0);
     EXPECT_EQ(f->get_prev()[0], e);
     EXPECT_EQ(f->get_prev().size(), 1);
 
