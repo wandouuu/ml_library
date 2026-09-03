@@ -213,6 +213,30 @@ TEST(DIVISION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_DIVISION) {
 
 }
 
+TEST(TANH_TEST, TESTING_CALCULATIONS_TANH) {
+
+    std::shared_ptr<Value> a = std::make_shared<Value>(5.0);
+
+    std::shared_ptr<Value> b = tanh(a);
+    b->backward();
+
+    double tanh_eval = std::tanh(5.0);
+
+    EXPECT_EQ(b->get_data(), tanh_eval);
+    EXPECT_EQ(a->get_grad(), 1 - std::pow(tanh_eval, 2));
+    EXPECT_EQ(b->get_prev()[0], a);
+    EXPECT_EQ(b->get_prev().size(), 1);
+
+}
+
+TEST(RELU_TEST, TESTING_CALCULATIONS_RELU) {
+    
+}
+
+TEST(SIGMOID_TEST, TESTING_CALCULATIONS_SIGMOID) {
+    
+}
+
 TEST(BACKPROP_TEST, TESTING_CALCULATIONS_OVERALL_BACKPROP) {
 
 }
