@@ -283,10 +283,8 @@ std::shared_ptr<Value> tanh(const std::shared_ptr<Value>& v) {
     std::vector<std::shared_ptr<Value>> prev = {};
     prev.push_back(v);
 
-    double tmp = v->get_data();
-    double exp_eval = std::exp(tmp);
-    double x = -exp_eval;
-    double tanh_eval = (exp_eval - x) / (exp_eval + x);
+    double x = v->get_data();
+    double tanh_eval = std::tanh(x);
 
     std::shared_ptr<Value> out = std::make_shared<Value>(tanh_eval, 0.0, prev, "tanh(x)");
     out->_backward = [v, out, tanh_eval](){
