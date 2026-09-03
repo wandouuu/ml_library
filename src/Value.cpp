@@ -297,6 +297,28 @@ std::shared_ptr<Value> tanh(const std::shared_ptr<Value>& v) {
 
 }
 
+std::shared_ptr<Value> relu(const std::shared_ptr<Value>& v) {
+
+    if(!v){
+        return nullptr;
+    }
+
+    std::vector<std::shared_ptr<Value>> prev = {};
+    prev.push_back(v);
+
+    std::shared_ptr<Value> out = std::make_shared<Value>(std::max(0.0, v->get_data()), 0.0, prev, "relu(x)");
+    out->_backward = [v, out](){
+        if(v->get_data() > 0.0f){
+            v->grad = out->get_grad();
+        } else{
+            v->grad = 0.0;
+        }
+    };
+
+    return out;
+
+}
+
 void build_topo(std::vector<std::shared_ptr<Value>>& topo, std::set<std::shared_ptr<Value>>& visited, std::shared_ptr<Value> v) {
 
     if(!(visited.find(v) != visited.end())){
