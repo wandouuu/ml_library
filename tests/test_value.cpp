@@ -231,7 +231,39 @@ TEST(TANH_TEST, TESTING_CALCULATIONS_TANH) {
 
 TEST(RELU_TEST, TESTING_CALCULATIONS_RELU) {
     
-}
+    // Case 1 (> 0)
+    std::shared_ptr<Value> a = std::make_shared<Value>(5.0);
+
+    std::shared_ptr<Value> b = relu(a);
+    b->backward();
+
+    EXPECT_EQ(b->get_data(), a->get_data());
+    EXPECT_EQ(b->get_grad(), 1.0);
+    EXPECT_EQ(b->get_prev()[0], a);
+    EXPECT_EQ(b->get_prev().size(), 1);
+
+    // Case 2 (== 0) 
+    std::shared_ptr<Value> c = std::make_shared<Value>(0.0);
+    
+    std::shared_ptr<Value> d = relu(c);
+
+    EXPECT_EQ(d->get_data(), c->get_data());
+    EXPECT_EQ(d->get_grad(), 0.0);
+    EXPECT_EQ(d->get_prev()[0], c);
+    EXPECT_EQ(d->get_prev().size(), 1);
+
+    // Case 3 (< 0)
+    std::shared_ptr<Value> e = std::make_shared<Value>(-5.0);
+
+    std::shared_ptr<Value> f = relu(e);
+
+    EXPECT_EQ(e->get_data(), -5.0);
+    EXPECT_EQ(f->get_data(), f->get_grad()); // both 0.0 (checked in next assertion)
+    EXPECT_EQ(f->get_grad(), 0.0);
+    EXPECT_EQ(f->get_prev()[0], e);
+    EXPECT_EQ(f->get_prev().size(), 1);
+
+}   
 
 TEST(SIGMOID_TEST, TESTING_CALCULATIONS_SIGMOID) {
     
