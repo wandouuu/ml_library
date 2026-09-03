@@ -330,7 +330,7 @@ std::shared_ptr<Value> sigmoid(const std::shared_ptr<Value>& v) {
 
     double sigmoid_eval = 1.0 / (1.0 + std::exp(-(v->get_data())));
 
-    std::shared_ptr<Value> out = std::make_shared<Value>(sigmoid, 0.0, prev, "sigmoid(x)");
+    std::shared_ptr<Value> out = std::make_shared<Value>(sigmoid_eval, 0.0, prev, "sigmoid(x)");
     out->_backward = [v, out, sigmoid_eval](){
         v->grad = sigmoid_eval * (1 - sigmoid_eval);
     };
