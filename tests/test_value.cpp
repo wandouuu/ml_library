@@ -6,8 +6,8 @@
 #include <limits>
 
 TEST(ADDITION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_ADDITION) {
-    std::shared_ptr<Value> a = std::make_shared<Value>(5);
-    std::shared_ptr<Value> b = std::make_shared<Value>(3);
+    std::shared_ptr<Value> a = std::make_shared<Value>(5.0);
+    std::shared_ptr<Value> b = std::make_shared<Value>(3.0);
 
     // Initialization verification
     EXPECT_EQ(a->get_grad(), 0);
@@ -51,8 +51,8 @@ TEST(ADDITION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_ADDITION) {
 }
 
 TEST(SUBTRACTION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_SUBTRACTION) {
-    std::shared_ptr<Value> a = std::make_shared<Value>(5);
-    std::shared_ptr<Value> b = std::make_shared<Value>(3);
+    std::shared_ptr<Value> a = std::make_shared<Value>(5.0);
+    std::shared_ptr<Value> b = std::make_shared<Value>(3.0);
 
     // Initialization verification
     EXPECT_EQ(a->get_grad(), 0);
@@ -147,8 +147,8 @@ TEST(MULTIPLICATION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_MULTIPLICATION
 }
 
 TEST(DIVISION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_DIVISION) {
-    std::shared_ptr<Value> a = std::make_shared<Value>(1);
-    std::shared_ptr<Value> b = std::make_shared<Value>(2);
+    std::shared_ptr<Value> a = std::make_shared<Value>(1.0);
+    std::shared_ptr<Value> b = std::make_shared<Value>(2.0);
 
     // Initialization verification
     EXPECT_EQ(a->get_grad(), 0);
@@ -172,9 +172,9 @@ TEST(DIVISION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_DIVISION) {
     c = a / 2026;
     c->backward();
     
-    EXPECT_EQ(c->get_data(), a->get_data()/2026);
+    EXPECT_EQ(c->get_data(), a->get_data()/2026.0);
     EXPECT_EQ(c->get_grad(), 1);
-    EXPECT_EQ(a->get_grad(), c->get_grad() * (1.0 / 2026));
+    EXPECT_EQ(a->get_grad(), c->get_grad() * (1.0 / 2026.0));
     EXPECT_EQ(c->get_prev()[1]->get_grad(), c->get_grad() * - (a->get_data() / std::pow(2026, 2)));
     EXPECT_EQ(c->get_prev()[1]->get_data(), 2026);
     EXPECT_EQ(std::find(c->get_prev().begin(), c->get_prev().end(), b) != c->get_prev().end(), false);
@@ -194,8 +194,8 @@ TEST(DIVISION_GRADIENT_TEST, TESTING_CALCULATIONS_GRADIENTS_DIVISION) {
 
     // Edge cases
     // Division by 0 with non-zero numerator
-    std::shared_ptr<Value> d = std::make_shared<Value>(2026);
-    std::shared_ptr<Value> e = std::make_shared<Value>(0);
+    std::shared_ptr<Value> d = std::make_shared<Value>(2026.0);
+    std::shared_ptr<Value> e = std::make_shared<Value>(0.0);
 
     std::shared_ptr<Value> f = d / e;
     f->backward();
