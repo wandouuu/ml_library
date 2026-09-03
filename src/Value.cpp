@@ -284,9 +284,9 @@ std::shared_ptr<Value> tanh(const std::shared_ptr<Value>& v) {
     prev.push_back(v);
 
     double tmp = v->get_data();
-    double x = std::exp(tmp);
-    double y = -std::exp(tmp);
-    double tanh_eval = (x - y) / (x + y);
+    double exp_eval = std::exp(tmp);
+    double x = -exp_eval;
+    double tanh_eval = (exp_eval - x) / (exp_eval + x);
 
     std::shared_ptr<Value> out = std::make_shared<Value>(tanh_eval, 0.0, prev, "tanh(x)");
     out->_backward = [v, out, tanh_eval](){
